@@ -1,0 +1,113 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .calculadora {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      max-width: 500px;
+      margin: 0 auto;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      background-color: #383e41;
+      grid-column-gap: 1px;
+      grid-row-gap: 1px;
+      border-radius: 4px;
+      box-shadow: 0px 0px 30px#1E2326;
+    }
+
+    #visor {
+      font-size: 40px;
+      padding-right: 55px;
+      grid-column: 1/ 5;
+      text-align: right;
+      background-color: #F6F6F6;
+      color: #1E2326;
+      border-radius: 4px 4px 0 0;
+    }
+
+    #visor:hover {
+      background-color: white;
+    }
+
+    .button {
+      background-color: #292f33;
+      cursor: pointer;
+      color: white;
+      padding: 30px;
+      font-size: 30px;
+      text-align: center;
+      transition-duration: 0.1s;
+    }
+
+    .button:hover {
+      filter: brightness(1.2);
+    }
+    @media (max-width: 600px) {
+      .calculadora{
+        
+      }
+  
+  }
+
+
+  </style>
+</head>
+
+<body>
+  <div class="calculadora">
+    <div class="button" id="visor" contenteditable="">0</div>
+  </div>
+  <script>
+    // Pau no cu do jquery S2
+    const $ = (x) => {
+      return document.querySelector(x)
+    }
+    const calc = $(".calculadora")
+    const visor = $("#visor")
+    const operations = "C()/789*456-123+0.<="
+    let counter = 0
+    operations.split('').forEach(operation => {
+      counter++
+      let newButton = document.createElement("div")
+      newButton.classList.add("button")
+      newButton.addEventListener("click", () => clickButton(operation))
+      newButton.innerHTML = operation
+      counter % 4 == 0 ? newButton.style.backgroundColor = "#5E4BB6" : void(0)
+      counter == 20 ? newButton.style.backgroundColor = "#FFC301" : void(0)
+      calc.appendChild(newButton)
+    })
+
+    function getVisor() {
+      return visor.innerHTML
+    }
+
+    function setVisor(x) {
+      visor.innerHTML = x
+    }
+
+    function clickButton(operation) {
+      if ("C<=".indexOf(operation) > -1) {
+        let x = {
+          "C": () => {
+            setVisor(0)
+          },
+          "<": () => {
+            getVisor() != '0' ? setVisor(getVisor().slice(0, -1)) : void(0)
+          },
+          "=": () => {
+            setVisor(eval(getVisor()))
+          }
+        } [operation]()
+        return
+      }
+      getVisor() == "0" ? setVisor('') : getVisor()
+      visor.innerHTML += operation
+    }
+
+  </script>
+</body>
+
+</html>
